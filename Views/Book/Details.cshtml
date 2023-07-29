@@ -1,0 +1,81 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@using System.Security.Claims
+
+<style>
+    .marg {
+        width: 80%;
+        margin: 0 auto;
+    }
+
+    .grad {
+        background: linear-gradient(to right, #59ab6e,darkgreen);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+
+    .hoverable-cards.card-img-overlay {
+        opacity: 0;
+        transition: opacity 0.3s ease-in-out;
+    }
+
+    .hoverable-cards.card:hover .card-img-overlay {
+        opacity: 0.9;
+    }
+
+    .hoverable-cards.card-body {
+        background-color: rgba(0, 0, 0, 0.7);
+        color: #fff;
+        padding: 10px;
+    }
+
+    div.card > .card-body {
+        flex-grow: 0.5;
+    }
+
+    .btm{
+    display: flex;
+    justify-content: space-between;
+    }
+</style>
+
+@model Book
+<div class="row container-fluid marg">
+    <h2 class="grad text-center pt-5">@Model.Name 's Details</h2>
+    <hr class="mt-4 mb-4" />
+    <div class="col-md-4 mb-4">
+        <div class="card">
+            <img src="/Images/@Model.Image" alt="Product Image" class="card-img-top" style="height:37rem;" />
+        </div>
+    </div>
+    <div class="col-md-4 mb-4">
+        <div class="card h-100" style="border: none; min-width:40em; max-width:100em; flex-grow:1;">
+            <div class="card-body mt-3 ms-3">
+                <h5 class="card-title">@Model.Name</h5>
+                <p class="card-text">@Model.Descrption</p>
+                <p class="card-text">Author: @Model.Author </p>
+                <p class="card-text">Quantity in stock: @Model.Copies_Of_Book</p>
+                <div class="btm">
+                <a asp-controller="book" asp-action="GetAllBook" class="btn btn-success">See All books</a>
+                @if (Model.Copies_Of_Book > 0)
+                {
+
+                    <form method="post" asp-controller="Book" asp-action="Borrow">
+                        <input type="hidden" name="bookId" value="@Model.Id" />
+                        <input type="hidden" name="userId" value="@User.FindFirstValue(ClaimTypes.NameIdentifier)" />
+                        <button type="submit" class="btn btn-success">Borrow</button>
+                    </form>
+                }
+                else
+                {
+                    <span class="text-danger">Not Available</span>
+                }
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr class="mb-4" />
+</div>

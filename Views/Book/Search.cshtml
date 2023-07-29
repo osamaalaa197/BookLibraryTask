@@ -1,0 +1,36 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+@model List<Book>
+<h2>Search Books</h2>
+@*<form asp-controller="Book" asp-action="SearchBook" method="get">
+    <div class="input-group mb-3">
+        <input type="text" class="form-control" name="search" placeholder="Enter search keyword...">
+        <button type="submit" class="btn btn-primary">Search</button>
+    </div>
+</form>*@
+
+@if(Model.Count>0){
+    <div class="trial-container">
+        <div class="row row-cols-4 g-4 flex-wrap">
+            @foreach (var book in Model)
+            {
+                <div class="col-md-4">
+                    <div class="card text-center bg-dark text-white hoverable-cards" style="width:17rem; height:30rem;">
+                        <img class="card-img-top" src="/Images/@book.Image" alt="Category Image" style="width:17rem; height:30rem;">
+                        <div class="card-body card-img-overlay d-grid align-content-lg-center align-items-center hoverable-cards " style="width:17rem; height:30rem;">
+                            <h4 class="card-title mb-3">@book.Name</h4>
+                            <h4 class="card-title mt-3 mb-3">Written By: @book.Author</h4>
+                            <a href="/Book/details/@book.Id" class="btn btn-success ">Check Details</a>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+}else{
+    <p>No results found.</p>
+}
